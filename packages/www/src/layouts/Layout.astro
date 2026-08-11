@@ -1,0 +1,289 @@
+---
+import InstagramIcon from '../components/InstagramIcon.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = 'Perch Kitchen — private chef services, cooked with care.' } =
+	Astro.props;
+
+const navLinks = [
+	{ href: '/gallery', label: 'Photo Gallery' },
+	{ href: '/catering', label: 'Catering Services' },
+	{ href: '/menus', label: 'Sample Menus' },
+	{ href: '/contact', label: 'Contact Form' }
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="description" content={description} />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title} · Perch Kitchen</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<header class="site-header">
+			<div class="wrap-wide">
+				<a class="wordmark" href="/">Perch Kitchen</a>
+				<nav>
+					{navLinks.map((link) => (
+						<a href={link.href} aria-current={currentPath === link.href ? 'page' : undefined}>
+							{link.label}
+						</a>
+					))}
+					<a
+						class="instagram-link"
+						href="https://www.instagram.com/perchkitchen"
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label="Perch Kitchen on Instagram"
+					>
+						<InstagramIcon />
+					</a>
+				</nav>
+			</div>
+		</header>
+
+		<main>
+			<slot />
+		</main>
+
+		<footer class="site-footer">
+			<div class="wrap-wide">
+				<nav class="footer-nav">
+					{navLinks.map((link) => (
+						<a href={link.href}>{link.label}</a>
+					))}
+				</nav>
+				<div class="footer-bottom">
+					<p>&copy; {new Date().getFullYear()} Perch Kitchen. All rights reserved.</p>
+					<a
+						class="instagram-link"
+						href="https://www.instagram.com/perchkitchen"
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label="Perch Kitchen on Instagram"
+					>
+						<InstagramIcon />
+						<span>@perchkitchen</span>
+					</a>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		--color-bg: #f7f4ea;
+		--color-surface: #ffffff;
+		--color-text: #2a3327;
+		--color-text-muted: #64705c;
+		--color-accent: #3c7d46;
+		--color-accent-dark: #1f4525;
+		--color-border: #e3e1d2;
+		--color-tint: #e3e6d1;
+		--font-display: 'Fraunces', Georgia, serif;
+		--font-body: 'Lora', Georgia, serif;
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		min-height: 100%;
+	}
+
+	body {
+		background: var(--color-bg);
+		color: var(--color-text);
+		font-family: var(--font-body);
+		line-height: 1.6;
+		display: flex;
+		flex-direction: column;
+	}
+
+	main {
+		flex: 1;
+	}
+
+	h1,
+	h2,
+	h3 {
+		font-family: var(--font-display);
+		font-weight: 600;
+		line-height: 1.15;
+		color: var(--color-text);
+	}
+
+	a {
+		color: var(--color-accent-dark);
+	}
+
+	.wrap {
+		max-width: 780px;
+		margin: 0 auto;
+		padding: 0 1.5rem;
+	}
+
+	.wrap-wide {
+		max-width: 1100px;
+		margin: 0 auto;
+		padding: 0 1.5rem;
+	}
+</style>
+
+<style>
+	.site-header {
+		border-bottom: 1px solid var(--color-border);
+		background: var(--color-surface);
+	}
+
+	.site-header .wrap-wide {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding-block: 1.25rem;
+	}
+
+	.wordmark {
+		font-family: var(--font-display);
+		font-size: 1.35rem;
+		font-weight: 600;
+		color: var(--color-text);
+		text-decoration: none;
+	}
+
+	.site-header nav {
+		display: flex;
+		align-items: center;
+		gap: 1.5rem;
+	}
+
+	.site-header nav a {
+		text-decoration: none;
+		font-weight: 500;
+		color: var(--color-text);
+		white-space: nowrap;
+	}
+
+	.site-header nav a:hover,
+	.site-header nav a[aria-current='page'] {
+		color: var(--color-accent-dark);
+	}
+
+	.instagram-link {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		color: var(--color-text-muted);
+		padding-left: 1.25rem;
+		margin-left: 0.25rem;
+		border-left: 1px solid var(--color-border);
+	}
+
+	.instagram-link:hover {
+		color: var(--color-accent-dark);
+	}
+
+	.instagram-link :global(svg) {
+		width: 1.25rem;
+		height: 1.25rem;
+	}
+
+	.site-header .instagram-link span {
+		display: none;
+	}
+
+	.site-footer {
+		border-top: 1px solid var(--color-border);
+		margin-top: 4rem;
+		background: var(--color-tint);
+	}
+
+	.site-footer .wrap-wide {
+		padding-block: 2rem;
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+	}
+
+	.footer-nav {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem 1.5rem;
+	}
+
+	.footer-nav a {
+		text-decoration: none;
+		font-weight: 500;
+		font-size: 0.9rem;
+		color: var(--color-text);
+	}
+
+	.footer-nav a:hover {
+		color: var(--color-accent-dark);
+	}
+
+	.footer-bottom {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		font-size: 0.875rem;
+		color: var(--color-text-muted);
+		border-top: 1px solid var(--color-border);
+		padding-top: 1.25rem;
+	}
+
+	.footer-bottom p {
+		margin: 0;
+	}
+
+	.footer-bottom .instagram-link {
+		border-left: none;
+		padding-left: 0;
+		margin-left: 0;
+		font-weight: 500;
+	}
+
+	@media (max-width: 640px) {
+		.site-header .wrap-wide {
+			flex-direction: column;
+			gap: 1rem;
+			padding-block: 1.25rem;
+		}
+
+		.site-header nav {
+			flex-wrap: wrap;
+			justify-content: center;
+			gap: 1rem 1.25rem;
+		}
+
+		.instagram-link {
+			border-left: none;
+			padding-left: 0;
+			margin-left: 0;
+		}
+	}
+</style>

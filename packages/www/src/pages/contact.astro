@@ -1,0 +1,131 @@
+---
+export const prerender = false;
+
+import Layout from '../layouts/Layout.astro';
+import { CONTACT_FORM_FIELDS } from '../lib/contact-form';
+
+const success = Astro.url.searchParams.get('success') === '1';
+const error = Astro.url.searchParams.get('error') === '1';
+---
+
+<Layout title="Contact" description="Get in touch with Perch Kitchen to plan your private dinner.">
+	<section class="wrap prose">
+		<h1>Get in touch</h1>
+		<p>
+			Tell me a bit about what you have in mind — number of guests, occasion, dietary needs,
+			preferred date — and I'll follow up to talk through the details.
+		</p>
+
+		{success && (
+			<p class="notice notice-success" role="status">
+				Thanks — your message is on its way. I'll be in touch soon.
+			</p>
+		)}
+		{error && (
+			<p class="notice notice-error" role="alert">
+				Something didn't look right — please check your name, email, and message and try
+				again.
+			</p>
+		)}
+
+		<form method="POST" action="/api/contact">
+			<!-- honeypot field: hidden from real visitors, catches simple bots -->
+			<input type="text" name="company" tabindex="-1" autocomplete="off" class="hp" />
+
+			{CONTACT_FORM_FIELDS.map((field) => (
+				<label>
+					{field.label}
+					{!field.required && <span class="optional"> (optional)</span>}
+					{field.type === 'textarea' ? (
+						<textarea name={field.name} rows="6" required={field.required} />
+					) : (
+						<input type={field.type} name={field.name} required={field.required} />
+					)}
+				</label>
+			))}
+
+			<button type="submit">Send message</button>
+		</form>
+	</section>
+</Layout>
+
+<style>
+	.prose {
+		padding-block: 3rem;
+	}
+
+	.notice {
+		padding: 0.75rem 1rem;
+		border-radius: 0.5rem;
+		font-weight: 500;
+	}
+
+	.notice-success {
+		background: #eaf2e3;
+		color: #3a5a2c;
+	}
+
+	.notice-error {
+		background: #f7e6e2;
+		color: #8a3b28;
+	}
+
+	form {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+		margin-top: 2rem;
+	}
+
+	label {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+		font-weight: 500;
+	}
+
+	.optional {
+		font-weight: 400;
+		color: var(--color-text-muted);
+	}
+
+	input,
+	textarea {
+		font: inherit;
+		padding: 0.65rem 0.75rem;
+		border: 1px solid var(--color-border);
+		border-radius: 0.5rem;
+		background: var(--color-surface);
+		color: var(--color-text);
+	}
+
+	input:focus,
+	textarea:focus {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 1px;
+	}
+
+	.hp {
+		position: absolute;
+		left: -9999px;
+		width: 1px;
+		height: 1px;
+		opacity: 0;
+	}
+
+	button {
+		align-self: flex-start;
+		font: inherit;
+		font-weight: 600;
+		background: var(--color-accent);
+		color: #fff;
+		border: none;
+		border-radius: 0.5rem;
+		padding: 0.75rem 1.75rem;
+		cursor: pointer;
+	}
+
+	button:hover {
+		background: var(--color-accent-dark);
+	}
+</style>

@@ -1,0 +1,237 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PeaPodIcon from '../components/PeaPodIcon.astro';
+import aboutPhoto from '../assets/home/about.jpg';
+import showcasePhoto1 from '../assets/home/showcase-1.jpg';
+import showcasePhoto2 from '../assets/home/showcase-2.jpg';
+import showcasePhoto3 from '../assets/home/showcase-3.jpg';
+
+const showcasePhotos = [showcasePhoto1, showcasePhoto3, showcasePhoto2];
+---
+
+<Layout
+	title="Home"
+	description="Perch Kitchen is a private chef service bringing seasonal, Mediterranean-inspired meals to your table."
+>
+	<section class="hero">
+		<div class="wrap-wide hero-copy">
+			<PeaPodIcon class="hero-icon" />
+			<h1>Perch Kitchen</h1>
+			<p class="tagline">
+				Perch Kitchen by Anjali Santhanam is a vegetarian-focused catering and private chef
+				service based in the San Francisco Bay Area. Seasonal, vegetable-forward menus celebrate
+				high-quality ingredients through thoughtful preparation and full, vibrant flavor.
+			</p>
+		</div>
+	</section>
+
+	<section class="wrap-wide about">
+		<img src={aboutPhoto.src} width={aboutPhoto.width} height={aboutPhoto.height} alt="" class="about-photo" />
+		<div class="about-copy">
+			<p>
+				<strong>Anjali Santhanam</strong> is a Bay Area native and chef whose interest in food
+				began at an early age. As a child, her father would perch her on the kitchen counter,
+				hand her a butter knife, and have her prepare bags of vegetables for weeknight dinners.
+				Those early experiences in the kitchen became the foundation for her career in cooking.
+			</p>
+			<p>
+				After studying Biomedical Engineering in New York and working in the medical device
+				industry, Anjali left the field to pursue cooking professionally.
+			</p>
+			<p>
+				She studied at the Scuola di Arte Culinaria Cordon Bleu in Florence, Italy, before
+				serving as Executive Chef at the Djerassi Residents Arts Program in Woodside, California,
+				where she cooks for artists participating in the program.
+			</p>
+			<p>
+				Raised vegetarian, Anjali has a particular appreciation for seasonal produce and for
+				creating dishes that make vegetables the focus of the plate. Her cooking emphasizes
+				thoughtful preparation, high-quality ingredients, and dishes that are warm, creative, and
+				full of flavor, allowing the natural character of each ingredient to shine.
+			</p>
+		</div>
+	</section>
+
+	<section class="wrap-wide showcase">
+		<div class="showcase-header">
+			<h2>A taste of the table</h2>
+		</div>
+		<div class="showcase-photos">
+			{showcasePhotos.map((photo) => (
+				<div class="showcase-photo">
+					<img src={photo.src} width={photo.width} height={photo.height} alt="" />
+				</div>
+			))}
+		</div>
+		<a href="/gallery" class="showcase-link">View full gallery →</a>
+	</section>
+
+	<section class="wrap offer">
+		<h2>What I offer</h2>
+		<ul>
+			<li>Private in-home dinners, tailored to your taste and dietary needs</li>
+			<li>
+				<a href="/catering">Catering</a> for special occasions — birthdays, anniversaries, holidays
+			</li>
+			<li><a href="/menus">Sample menus</a> to help you picture the evening</li>
+			<li>Meal prep and family-style dinners for the week ahead</li>
+		</ul>
+	</section>
+
+	<section class="cta">
+		<div class="wrap">
+			<h2>Have an event in mind?</h2>
+			<p>
+				<a href="/contact">Get in touch</a> and let's talk about your menu.
+			</p>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.hero {
+		background: var(--color-tint);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.hero-copy {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		gap: 2rem;
+		padding-block: 8rem;
+	}
+
+	/* PeaPodIcon renders its own <svg class="hero-icon">, so this class lands on a child
+	   component's root element rather than one written directly in this file — same reason the
+	   carousel buttons below reach their icons through :global(svg). Unlike those icons, it's a
+	   colored illustration rather than a `currentColor` glyph, so no color is set here. */
+	:global(.hero-icon) {
+		width: 5.5rem;
+		height: auto;
+	}
+
+	.hero-copy h1 {
+		font-size: 3rem;
+		margin: 0;
+	}
+
+	.tagline {
+		font-size: 1.25rem;
+		color: var(--color-text);
+		margin: 0;
+		max-width: 80%;
+	}
+
+	.about {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+		gap: 3rem;
+		align-items: center;
+		padding-block: 4rem;
+	}
+
+	.about-photo {
+		width: 100%;
+		height: auto;
+		border-radius: 0.75rem;
+	}
+
+	.about-copy p:first-child {
+		margin-top: 0;
+	}
+
+	.showcase {
+		padding-block: 4rem;
+		border-top: 1px solid var(--color-border);
+	}
+
+	.showcase-header {
+		margin-bottom: 1.5rem;
+	}
+
+	.showcase-header h2 {
+		margin: 0;
+	}
+
+	.showcase-photos {
+		display: flex;
+		gap: 1.5rem;
+		width: 100%;
+	}
+
+	.showcase-photo {
+		flex: 1 1 0;
+		min-width: 0;
+		aspect-ratio: 3 / 4;
+		border-radius: 0.75rem;
+		overflow: hidden;
+	}
+
+	.showcase-photo img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.showcase-link {
+		display: block;
+		margin-top: 1.5rem;
+		color: var(--color-accent-dark);
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.showcase-link:hover {
+		text-decoration: underline;
+	}
+
+	.offer {
+		padding-block: 3rem;
+	}
+
+	.offer h2:first-child {
+		margin-top: 0;
+	}
+
+	.cta {
+		background: var(--color-tint);
+		border-top: 1px solid var(--color-border);
+		text-align: center;
+	}
+
+	.cta .wrap {
+		padding-block: 3.5rem;
+	}
+
+	.cta h2 {
+		margin-top: 0;
+	}
+
+	@media (max-width: 720px) {
+		.about {
+			grid-template-columns: 1fr;
+			gap: 1.5rem;
+			padding-block: 3rem;
+		}
+
+		.hero-copy {
+			gap: 1.5rem;
+			padding-block: 4rem;
+		}
+
+		:global(.hero-icon) {
+			width: 4rem;
+		}
+
+		.hero-copy h1 {
+			font-size: 2.25rem;
+		}
+
+		.showcase-photos {
+			gap: 0.5rem;
+		}
+	}
+</style>

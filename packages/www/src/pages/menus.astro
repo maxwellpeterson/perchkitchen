@@ -1,0 +1,103 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// TODO: replace with real sample menus
+const sampleMenus = [
+	{
+		name: 'Mediterranean Evening',
+		starter: 'Whipped feta with charred lemon and herb oil',
+		main: 'Grilled branzino, orzo salad, and roasted vegetables',
+		dessert: 'Olive oil cake with citrus and honey'
+	},
+	{
+		name: 'Family-Style Feast',
+		starter: 'Marinated olives, warm pita, and dips',
+		main: 'Slow-roasted lamb with herbed potatoes and greens',
+		dessert: 'Baklava with pistachio and rosewater'
+	},
+	{
+		name: 'Seasonal Tasting',
+		starter: "Chef's choice seasonal starter",
+		main: "Chef's choice seasonal main, built around what's fresh",
+		dessert: "Chef's choice seasonal dessert"
+	}
+];
+---
+
+<Layout title="Sample Menus" description="Sample menus from Perch Kitchen, customized for your event.">
+	<section class="wrap">
+		<h1>Sample Menus</h1>
+		<p class="intro">
+			A few examples of the kind of menus I cook. Every menu is customized to your preferences,
+			dietary needs, and the season.
+		</p>
+
+		<div class="menus">
+			{sampleMenus.map((menu) => (
+				<article class="menu-card">
+					<h2>{menu.name}</h2>
+					<dl>
+						<dt>Starter</dt>
+						<dd>{menu.starter}</dd>
+						<dt>Main</dt>
+						<dd>{menu.main}</dd>
+						<dt>Dessert</dt>
+						<dd>{menu.dessert}</dd>
+					</dl>
+				</article>
+			))}
+		</div>
+
+		<p class="cta">
+			<a href="/contact">Get in touch</a> to build a menu around your event.
+		</p>
+	</section>
+</Layout>
+
+<style>
+	.wrap {
+		padding-block: 3rem;
+	}
+
+	.intro {
+		color: var(--color-text-muted);
+		max-width: 40rem;
+	}
+
+	.menus {
+		display: grid;
+		gap: 1.5rem;
+		margin-top: 2rem;
+	}
+
+	.menu-card {
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: 0.75rem;
+		padding: 1.75rem;
+	}
+
+	.menu-card h2 {
+		margin-top: 0;
+	}
+
+	.menu-card dl {
+		margin: 0;
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 0.5rem 1rem;
+	}
+
+	.menu-card dt {
+		font-weight: 600;
+		color: var(--color-accent-dark);
+	}
+
+	.menu-card dd {
+		margin: 0;
+	}
+
+	.cta {
+		margin-top: 2.5rem;
+	}
+</style>

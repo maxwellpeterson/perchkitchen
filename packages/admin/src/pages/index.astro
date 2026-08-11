@@ -1,0 +1,129 @@
+---
+export const prerender = false;
+
+import { env } from 'cloudflare:workers';
+import Layout from '../layouts/Layout.astro';
+
+interface InquiryRow {
+	id: number;
+	form_version: number;
+	name: string;
+	email: string;
+	data: string;
+	created_at: string;
+}
+
+const { results } = await env.DB
+	.prepare(
+		'SELECT id, form_version, name, email, data, created_at FROM inquiries ORDER BY created_at DESC'
+	)
+	.all<InquiryRow>();
+
+// `data` is a JSON blob of whatever the contact form's fields were at submission time (see
+// src/lib/contact-form.ts in the public site). Parsing and rendering it generically here means
+// this page keeps working as the form's fields change over time, without needing updates to
+// match each new form_version.
+const inquiries = results.map((row) => ({
+	...row,
+	fields: JSON.parse(row.data) as Record<string, string | null>
+}));
+---
+
+<Layout title="Inquiries">
+	<p class="count">{inquiries.length} inquir{inquiries.length === 1 ? 'y' : 'ies'}</p>
+
+	{inquiries.length === 0 ? (
+		<p>No inquiries yet.</p>
+	) : (
+		<table>
+			<thead>
+				<tr>
+					<th>Date</th>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Details</th>
+				</tr>
+			</thead>
+			<tbody>
+				{inquiries.map((row) => (
+					<tr>
+						<td>{row.created_at}</td>
+						<td>{row.name}</td>
+						<td><a href={`mailto:${row.email}`}>{row.email}</a></td>
+						<td class="details">
+							<dl>
+								{Object.entries(row.fields)
+									.filter(([key]) => key !== 'name' && key !== 'email')
+									.map(([key, value]) => (
+										<>
+											<dt>{key}</dt>
+											<dd>{value ?? '—'}</dd>
+										</>
+									))}
+							</dl>
+							<span class="version">form v{row.form_version}</span>
+						</td>
+					</tr>
+				))}
+			</tbody>
+		</table>
+	)}
+</Layout>
+
+<style>
+	.count {
+		color: #555;
+		margin-top: 0;
+	}
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		background: #fff;
+	}
+
+	th,
+	td {
+		text-align: left;
+		padding: 0.6rem 0.75rem;
+		border-bottom: 1px solid #e5e5e5;
+		vertical-align: top;
+	}
+
+	th {
+		background: #fafafa;
+		font-size: 0.8rem;
+		text-transform: uppercase;
+		letter-spacing: 0.03em;
+		color: #666;
+	}
+
+	.details {
+		max-width: 32ch;
+	}
+
+	.details dl {
+		margin: 0;
+		display: grid;
+		grid-template-columns: max-content 1fr;
+		gap: 0.15rem 0.6rem;
+	}
+
+	.details dt {
+		font-weight: 600;
+		text-transform: capitalize;
+		color: #555;
+	}
+
+	.details dd {
+		margin: 0;
+		white-space: pre-wrap;
+	}
+
+	.version {
+		display: inline-block;
+		margin-top: 0.5rem;
+		font-size: 0.75rem;
+		color: #999;
+	}
+</style>

@@ -1,0 +1,21 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"compatibility_date": "2026-08-08",
+	"compatibility_flags": ["global_fetch_strictly_public"],
+	"name": "perchkitchen-admin",
+	"main": "@astrojs/cloudflare/entrypoints/server",
+	"assets": {
+		"directory": "./dist",
+		"binding": "ASSETS"
+	},
+	"observability": {
+		"enabled": true
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "perchkitchen-db",
+			"database_id": "a1cac1ab-eeb1-45dc-a590-a50b1881d964"
+		}
+	]
+}

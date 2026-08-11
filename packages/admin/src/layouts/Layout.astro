@@ -1,0 +1,62 @@
+---
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="robots" content="noindex, nofollow" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title} · Perch Kitchen Admin</title>
+	</head>
+	<body>
+		<header>
+			<h1>Perch Kitchen Admin</h1>
+		</header>
+		<main>
+			<slot />
+		</main>
+	</body>
+</html>
+
+<style is:global>
+	* {
+		box-sizing: border-box;
+	}
+
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		min-height: 100%;
+	}
+
+	body {
+		font-family: system-ui, sans-serif;
+		color: #1c1c1c;
+		background: #f5f5f4;
+	}
+
+	header {
+		background: #fff;
+		border-bottom: 1px solid #ddd;
+		padding: 1rem 1.5rem;
+	}
+
+	header h1 {
+		margin: 0;
+		font-size: 1.15rem;
+	}
+
+	main {
+		padding: 1.5rem;
+	}
+</style>

@@ -1,24 +1,16 @@
 {
 	"name": "perchkitchen",
-	"type": "module",
-	"version": "0.0.1",
+	"private": true,
 	"engines": {
 		"node": ">=22.12.0"
 	},
 	"scripts": {
-		"dev": "astro dev",
-		"build": "astro build",
-		"preview": "astro build && astro preview",
-		"astro": "astro",
-		"generate-types": "wrangler types",
-		"deploy": "astro build && wrangler deploy",
-		"cf-typegen": "wrangler types"
-	},
-	"dependencies": {
-		"@astrojs/cloudflare": "^14.2.0",
-		"astro": "^7.2.0"
-	},
-	"devDependencies": {
-		"wrangler": "^4.120.1"
+		"dev:www": "pnpm --filter www dev",
+		"dev:admin": "pnpm --filter admin dev",
+		"build:www": "pnpm --filter www build",
+		"build:admin": "pnpm --filter admin build",
+		"deploy:www": "pnpm --filter www deploy",
+		"deploy:admin": "pnpm --filter admin deploy",
+		"generate-types": "pnpm -r generate-types"
 	}
 }
